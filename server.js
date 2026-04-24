@@ -21,7 +21,7 @@ app.use('/api/achievements', require('./routes/achievementRoutes'));
 
 // teste
 app.get('/', (req, res) => {
-    res.send('UpYou API rodando 🚀');
+    res.send('UpYou API rodando');
 });
 
 const PORT = process.env.PORT || 3000;
