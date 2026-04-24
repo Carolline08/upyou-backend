@@ -1,20 +1,26 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+require('dotenv').config();
 
-dotenv.config();
-connectDB();
+const userRoutes = require('./routes/userRoutes');
+const challengeRoutes = require('./routes/challengeRoutes');
+const progressRoutes = require('./routes/progressRoutes');
+const achievementRoutes = require('./routes/achievementRoutes');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/challenges', require('./routes/challengeRoutes'));
-app.use('/api/progress', require('./routes/progressRoutes'));
-app.use('/api/achievements', require('./routes/achievementRoutes'));
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB conectado'))
+    .catch(err => console.log(err));
+
+app.use('/api/users', userRoutes);
+app.use('/api/challenges', challengeRoutes);
+app.use('/api/progress', progressRoutes);
+app.use('/api/achievements', achievementRoutes);
 
 const PORT = process.env.PORT || 3000;
 
