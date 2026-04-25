@@ -4,9 +4,10 @@ exports.create = async (req, res) => {
   try {
     const { challengeId } = req.body;
 
-    const progress = await Progress.create({ challengeId });
+    await Progress.create({ challengeId });
+    const total = await Progress.countDocuments({ challengeId });
 
-    res.status(201).json(progress);
+    res.status(201).json({ challengeId, progressCount: total });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
